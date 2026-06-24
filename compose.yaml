@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: api-atencion
+    restart: always
+    ports:
+      - "7001:7001"
+    environment:
+      - PORT=7001
+      - DB_HOST=basededatos-atencion
+      - DB_NAME=ciudadano
+      - DB_USER=innovacion
+      - DB_PASSWORD=innovacion123
+      - JWT_SECRET=1nn4v1c34nd3g3t1l
+    depends_on:
+      - basededatos-atencion
+
+  basededatos-atencion:
+    image: mysql:latest
+    container_name: basededatos-atencion
+    ports:
+      - "3313:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: innovacion123*
+      MYSQL_DATABASE: ciudadano
+      MYSQL_USER: innovacion
+      MYSQL_PASSWORD: innovacion123
+    volumes:
+      - mysql_data_atencion:/var/lib/mysql
+
+volumes:
+  mysql_data_atencion:
